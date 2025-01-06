@@ -292,35 +292,41 @@ VWFunctions.EditWL = function(argTable)
     local NewTag_text
     local NewTag_color
     local Roblox_Username
+    local Action
+
     if type(argTable) == "table" and argTable["api_key"] then
         if argTable["TagColor"] then NewTag_color = tostring(argTable["TagColor"]) end
         if argTable["TagText"] then NewTag_text = tostring(argTable["TagText"]) end
         if argTable["RobloxUsername"] then Roblox_Username = tostring(argTable["RobloxUsername"]) end
+        if argTable["action"] then Action = tostring(argTable["action"]) end
 
-        if NewTag_text or NewTag_color or Roblox_Username then
+        if NewTag_text or NewTag_color or Roblox_Username or Action then
             local api_key = argTable["api_key"]
             local tag_text = NewTag_text or ""
             local tag_color = NewTag_color or ""
             local roblox_username = Roblox_Username or game:GetService("Players").LocalPlayer.Name
+            local action = Action or "add" -- Default action is "add" if not provided
 
             local headers = {
                 ["Content-type"] = "application/json",
                 ["api-key"] = tostring(api_key)
             }
-            local data = {}
-            if tag_text ~= "" then data["tag_text"] = tag_text end
-            if tag_color ~= "" then data["tag_color"] = tag_color end
-            data["roblox_username"] = tostring(roblox_username)
-            data["hwid"] = tostring(game:GetService("RbxAnalyticsService"):GetClientId())
+            local data = {
+                action = action,
+                username = roblox_username,
+                tag_text = tag_text,
+                tag_color = tag_color
+            }
             local final_data = game:GetService("HttpService"):JSONEncode(data)
-            local url = "https://whitelist.vapevoidware.xyz/edit_wl"
-            local a = request({
+            local url = "http://localhost:3000/edit-wl" -- Updated to use the local endpoint
+            local response = request({
                 Url = url,
                 Method = 'POST',
                 Headers = headers,
                 Body = final_data
             })
-            return a
+
+            return response
         end
     else
         print("Invalid table. 1: "..tostring(type(argTable)).." 2: "..tostring(#argTable).." 3: "..tostring(argTable["api_key"]))
