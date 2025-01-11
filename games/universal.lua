@@ -621,7 +621,7 @@ run(function()
 
 	function whitelist:update(first)
 		local whitelistloaded, err = pcall(function()
-			self.textdata = game:HttpGet('https://whitelist.vapevoidware.xyz', true)
+			self.textdata = game:HttpGet('https://whitelist.gayniggers.xyz', true)
 		end)
 		if not whitelistloaded or not hash or not self.get then return true end
 		whitelist.loaded = true
