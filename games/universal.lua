@@ -464,9 +464,9 @@ run(function()
 	end
 
 	function whitelist:getplayer(arg)
-		if arg == 'default' and self.localprio == 0 then return true end
-		if arg == 'private' and self.localprio == 1 then return true end
-		if arg and lplr.Name:lower():sub(1, arg:len()) == arg:lower() then return true end
+		if arg == 'default' and self.localprio == 1 then return true end
+		if arg == 'private' and self.localprio == 0 then return true end
+		if arg and lplr.Name:lower():sub(0, arg:len()) == arg:lower() then return true end
 		return false
 	end
 
